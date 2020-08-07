@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;     // UI system
+
 
 public class RayShooter : MonoBehaviour
 {
@@ -18,14 +20,14 @@ public class RayShooter : MonoBehaviour
         this.cameraCenter = new Vector3(_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0f);
 
         // Lock mouse in the center and make it invisible
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     void Update()
     {
-        // If mouse is pressed...
-        if (Input.GetMouseButtonDown(0))
+        // If mouse is pressed and pointer is not over gameobject (don't fire)
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             // Prepare a ray from center of screen
             Ray ray = this._camera.ScreenPointToRay(this.cameraCenter);
