@@ -44,6 +44,9 @@ public class RayShooter : MonoBehaviour
                 {
                     // Let enemy deal with the damage
                     enemy.ReactToHit();
+
+                    // Broadcast "ENEMY HIT" message
+                    Messenger.Broadcast(GameEvent.ENEMY_HIT);
                 }
             }
         }

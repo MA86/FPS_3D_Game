@@ -6,8 +6,8 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour
 {
     // Publics
-    public float Speed = 5;
-    public float ScanRange = 5;
+    private float Speed = 5f;
+    public float ScanRange = 5f;
 
     // Allows editor to assign a fireball prefab
     [SerializeField] private GameObject fireballPrefab;
@@ -20,6 +20,19 @@ public class EnemyAI : MonoBehaviour
     {
         // Initial FSM state is alive
         this._IsAlive = true;
+    }
+
+    // Subscribe here (good practice)
+    void Awake()
+    {
+        // Listen to UI speed change event (subscribe!)
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedSlider);
+    }
+
+    // Desubscribe here (good practice)
+    void OnDestroy()
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedSlider);
     }
 
     void Update()
@@ -71,5 +84,11 @@ public class EnemyAI : MonoBehaviour
     public void IsAlive(bool alive)
     {
         this._IsAlive = alive;
+    }
+
+    // Called by broadcaster
+    private void OnSpeedSlider(float x)
+    {
+        this.Speed = 10f * x; 
     }
 }
